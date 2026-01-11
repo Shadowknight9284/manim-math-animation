@@ -14,20 +14,28 @@ class BasicScene(Scene):
         self.wait(2)
 
 
-class MathScene(Scene):
+class LogoStatic(Scene):
     def construct(self):
-        # Create a mathematical expression with LaTeX
-        equation = MathTex(r"e^{i\pi} + 1 = 0")
-        self.play(Write(equation))
-        self.wait(1)
+        # Separate symbols for individual control
+        scale = 10
+        mu = MathTex(r"M").scale(scale)      # Bigger M
+        emptyset = MathTex(r"\emptyset").scale(scale)  # Bigger empty set
+        integral = MathTex(r"\int").scale(scale)  # Bigger integral
         
-        # Scale the equation
-        self.play(equation.animate.scale(1.5))
-        self.wait(1)
+        # Scale integral smaller
+        integral.scale(0.5)  # 50% of default size
         
-        # Change color
-        self.play(equation.animate.set_color(BLUE))
-        self.wait(2)
+        # Group them horizontally with tight spacing
+        group = VGroup(mu, emptyset, integral).arrange(RIGHT, buff=0.05)
+        
+        group.move_to(ORIGIN)
+        
+        self.play(Write(group))
+        self.wait(1)
+
+        # Render black background
+        # manim -pqk --save_last_frame -r 2048,2048 scene.py LogoStatic -o MOS_logo.png
+
 
 
 class GeometryScene(Scene):
